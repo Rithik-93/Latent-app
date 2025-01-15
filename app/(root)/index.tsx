@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
     View,
@@ -83,7 +84,9 @@ const PhoneEmailInput = () => {
                     </View>
 
                     <TouchableOpacity style={styles.button}>
+                        <Link href='/(root)/(tabs)/otp'>
                         <Text style={styles.buttonText}>Next</Text>
+                        </Link>
                     </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
