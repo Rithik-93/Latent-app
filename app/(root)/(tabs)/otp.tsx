@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import React, { useState, useRef } from 'react';
 import {
     View,
@@ -74,7 +75,9 @@ const OTPVerification = ({ navigation }) => {
                         otp.every((digit) => digit !== '') && styles.nextButtonActive,
                     ]}
                 >
-                    <Text style={styles.nextButtonText}>Next</Text>
+                    <Link href='/(root)/(tabs)/Name'>
+                        <Text style={styles.nextButtonText}>Next</Text>
+                    </Link>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
