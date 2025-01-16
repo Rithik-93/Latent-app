@@ -15,9 +15,7 @@ export default function Index() {
                     alignItems: "center",
                 }} >
                 <Link href='/sign-in'>Sign In</Link>
-                <Link href='/(root)/properties/[id]'>Property</Link>
                 <Link href='/profile'>Profile</Link>
-                <Link href='/explore'>Explore</Link>
                 <Link href='/'>Indexxxxxxxx</Link>
             </View>
         </>

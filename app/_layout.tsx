@@ -4,6 +4,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import { useColorScheme } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -22,13 +23,14 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(root)" options={{ headerShown: false }} />
-        <Stack.Screen name="sign-in" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+    <ThemeProvider value={DarkTheme}>
+      <GestureHandlerRootView>
+        <Stack screenOptions={{
+          headerShown: false
+        }} >
+          {/* <Stack.Screen name="/sign-in" options={{ headerShown: true, headerTitle: "Account info", headerBackTitle: "Go Back" }} /> */}
+        </Stack>
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }

@@ -5,14 +5,14 @@ import { Tabs } from 'expo-router'
 const signin = () => {
   return (
     <>
-    <Tabs>
-<Tabs.Screen name='/' options={{ title: 'Explore' }}>
+      <Tabs>
+        <Tabs.Screen name='/' options={{ title: 'Explore' }}>
 
-</Tabs.Screen>
-    </Tabs>
-    <View>
-      <Text>HELOOOO</Text>
-    </View>
+        </Tabs.Screen>
+      </Tabs>
+      <View>
+        <Text>HELOOOO</Text>
+      </View>
     </>
   )
 }

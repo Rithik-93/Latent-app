@@ -36,7 +36,7 @@ const OTPVerification = ({ navigation }) => {
 
                 <View style={styles.imageContainer}>
                     <Image
-                        source={require("../../../assets/consent.png")}
+                        source={require("../../assets/consent.png")}
                         style={styles.profileImage}
                     />
                     <View style={styles.speechBubble}>
@@ -75,7 +75,7 @@ const OTPVerification = ({ navigation }) => {
                         otp.every((digit) => digit !== '') && styles.nextButtonActive,
                     ]}
                     onPress={() => {
-                        router.push('/(root)/(tabs)/Name')
+                        router.push('/(onboarding)/Name')
                     }}
                 >
                         <Text style={styles.nextButtonText}>Next</Text>

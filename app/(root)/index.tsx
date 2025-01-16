@@ -1,95 +1,152 @@
-import { Link } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import Sidebar from '@/components/Drawer';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
 import {
     View,
     Text,
     Image,
-    TextInput,
     TouchableOpacity,
     StyleSheet,
     SafeAreaView,
-    KeyboardAvoidingView,
-    Platform,
+    ScrollView,
 } from 'react-native';
+import { Menu, Bell, ChevronRight, BellOff } from 'react-native-feather';
 
-const PhoneEmailInput = () => {
-    const [input, setInput] = useState('');
-    const [error, setError] = useState("");
+const hasPremium = false;
+const LatentHome = () => {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-    const validateInput = (input: string) => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-        const phoneRegex = /^91\d{10}$/;
-
-        if (emailRegex.test(input)) {
-            setError("");
-        }
-        else if (input.length >= 1 && !input.startsWith("9") || input.length > 1 && !input.startsWith("91")) {
-            setError("Phone number must start with 91");
-        }
-        else if (input.length > 1 && input.startsWith("9") && input[1] === "1" && phoneRegex.test(input)) {
-            setError("");
-        }
-        else if (input.startsWith("9") && input.length <= 2) {
-            setError("");
-        }
-        else if (input.length >= 2 && !input.startsWith("91")) {
-            setError("Phone number must start with 91");
-        }
-        else {
-            setError("");
-        }
-    };
+    const renderEpisodeCard = (episode: {
+        title: string;
+        image: string;
+        isLocked?: boolean;
+    }) => (
+        <TouchableOpacity style={styles.episodeCard}>
+            <View style={styles.thumbnailContainer}>
+                <Image
+                    source={require("../../assets/thumbnail1.png")}
+                    style={styles.thumbnail}
+                />
+                {episode.isLocked && (
+                    <View style={styles.lockContainer}>
+                        <Image source={require("assets/lock2.png")} style={[
+                            {
+                                tintColor: 'rgba(248, 212, 141, 1)',
+                            },
+                        ]} />
+                    </View>
+                )}
+            </View>
+            <Text style={styles.episodeTitle} numberOfLines={2}>
+                {episode.title}
+            </Text>
+        </TouchableOpacity>
+    );
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.keyboardView}
-            >
-                <View style={styles.content}>
-                    <View style={styles.imageContainer}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => {
+                    setIsDrawerOpen(!isDrawerOpen)
+                }}>
+                    <Menu stroke="white" width={24} height={24} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    router.push('/(onboarding)/Welcome')
+                }}>
+                    <Bell stroke="white" width={24} height={24} />
+                </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.content}>
+                {hasPremium ?
+                    <TouchableOpacity style={styles.upgradeCard}>
                         <Image
-                            source={require("../../assets/Singh.png")}
-                            style={styles.profileImage}
+                            source={require('../../assets/thumbnail1.png')}
+                            style={styles.upgradeBackground}
                         />
-                        <View style={styles.speechBubble}>
-                            <Text style={styles.speechText}>Likho 98...</Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.inputSection}>
-                        <Text style={styles.headerText}>
-                            Enter your phone number or email,{' '}
-                            <Text style={styles.subText}>we promise no spam.</Text>
-                        </Text>
-
-                        <TextInput
-                            style={[styles.input, {
-                                borderColor: error ? "red" : "#ccc",
-                                borderWidth: error ? 1 : 0,
-                            }]}
-                            value={input}
-                            onChangeText={(text) => {
-                                setInput(text);
-                                validateInput(text)
-                            }}
-                            placeholder="Phone number or email"
-                            placeholderTextColor="#666666"
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
-                        {error ? <Text style={styles.errortext}>{error}</Text> : null}
-                    </View>
-
-                    <TouchableOpacity style={styles.button}>
-                        <Link href='/(root)/(tabs)/otp'>
-                        <Text style={styles.buttonText}>Next</Text>
-                        </Link>
                     </TouchableOpacity>
+                    :
+                    <TouchableOpacity style={styles.upgradeCard} onPress={() => {
+                        router.push('/(root)/(tabs)/Premium')
+                    }}>
+                        <Image
+                            source={require('../../assets/join-latent.png')}
+                            style={styles.upgradeBackground}
+                        />
+                    </TouchableOpacity>}
+
+                <View style={styles.section}>
+                    <TouchableOpacity style={styles.sectionHeader}>
+                        <Text style={styles.sectionTitlePremium}>Latent+ Episodes</Text>
+                        <ChevronRight stroke="#FFFFFF" width={20} height={20} />
+                    </TouchableOpacity>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.episodeList}>
+                        {[
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: true,
+                            },
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: true,
+                            },
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: true,
+                            },
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: true,
+                            },
+                        ].map((episode, index) => (
+                            <View key={index} style={styles.episodeCardContainer}>
+                                {renderEpisodeCard(episode)}
+                            </View>
+                        ))}
+                    </ScrollView>
                 </View>
-            </KeyboardAvoidingView>
+
+                <View style={styles.section}>
+                    <TouchableOpacity style={styles.sectionHeader}>
+                        <Text style={styles.sectionTitle}>All Episodes</Text>
+                        <ChevronRight stroke="#FFFFFF" width={20} height={20} />
+                    </TouchableOpacity>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.episodeList}>
+                        {[
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: false,
+                            },
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: false,
+                            },
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: false,
+                            },
+                            {
+                                title: "India's Got Latent ft. @Ashish Chanchalani, @Beer Biceps, @...",
+                                image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-01-15%20070320-r2fcVWd6Wz87be9EG68lmFWC1ALNRL.png",
+                                isLocked: false,
+                            },
+                        ].map((episode, index) => (
+                            <View key={index} style={styles.episodeCardContainer}>
+                                {renderEpisodeCard(episode)}
+                            </View>
+                        ))}
+                    </ScrollView>
+                </View>
+            </ScrollView>
+            {isDrawerOpen && <Sidebar onPress={() => setIsDrawerOpen(!isDrawerOpen)}/>}
         </SafeAreaView>
     );
 };
@@ -99,80 +156,142 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#000000',
     },
-    keyboardView: {
-        flex: 1,
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingVertical: 16,
     },
     content: {
         flex: 1,
-        paddingHorizontal: 20,
-        paddingTop: 40,
     },
-    imageContainer: {
-        width: 200,
-        height: 200,
-        alignSelf: 'center',
-        marginBottom: 40,
+    upgradeCard: {
+        margin: 16,
+        height: 220,
+        width: 353,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: 'gold', // change this
+        overflow: 'hidden',
     },
-    profileImage: {
+    upgradeBackground: {
+        ...StyleSheet.absoluteFillObject,
         width: '100%',
         height: '100%',
-        borderRadius: 100,
+    },
+    upgradeContent: {
+        flex: 1,
+        padding: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    upgradeText: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        fontWeight: '600',
+    },
+    latentPlusText: {
+        color: '#FFD700',
+        fontSize: 32,
+        fontWeight: 'bold',
+        marginVertical: 8,
+    },
+    upgradeDescription: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        textAlign: 'center',
+        marginBottom: 16,
+    },
+    joinButton: {
         backgroundColor: '#FFD700',
+        paddingHorizontal: 24,
+        paddingVertical: 8,
+        borderRadius: 20,
     },
-    speechBubble: {
-        position: 'absolute',
-        bottom: -20,
-        right: 20,
-        backgroundColor: 'white',
-        padding: 8,
-        borderRadius: 15,
-        maxWidth: '80%',
-    },
-    speechText: {
+    joinButtonText: {
         color: '#000000',
         fontSize: 14,
-    },
-    inputSection: {
-        marginBottom: 20,
-    },
-    headerText: {
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 24,
         fontWeight: '600',
-        marginBottom: 10,
     },
-    subText: {
-        color: '#666666',
-        fontWeight: '400',
+    section: {
+        marginBottom: 24,
     },
-    input: {
-        backgroundColor: '#1A1A1A',
-        borderRadius: 8,
-        borderColor: "red",
-        padding: 16,
-        color: 'white',
-        fontSize: 16,
-        marginTop: 10,
+    sectionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        marginBottom: 12,
     },
-    errortext: {
-        color: "red",
+    sectionTitlePremium: {
+        color: '#F8D48D',
+        fontSize: 20,
+        fontWeight: '600',
+    },
+    sectionTitle: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '600',
+    },
+    episodeList: {
+        paddingLeft: 16,
+    },
+    episodeCardContainer: {
+        marginRight: 12,
         fontSize: 12,
-        marginTop: 5
+        width: 177.46,
+        height: 142.26
     },
-    button: {
-        backgroundColor: 'white',
-        padding: 12,
+    episodeCard: {
+        width: '100%',
+        // paddingHorizontal: 16
+    },
+    thumbnailContainer: {
+        position: 'relative',
+        aspectRatio: 16 / 9,
         borderRadius: 8,
-        marginTop: 'auto',
-        marginBottom: Platform.OS === 'ios' ? 20 : 40,
+        overflow: 'hidden',
+        marginBottom: 8,
+        borderWidth: 1.1,
+        borderColor: '#F8D48D'
     },
-    buttonText: {
-        color: '#000000',
-        textAlign: 'center',
-        fontSize: 16,
-        fontWeight: '600',
+    thumbnail: {
+        width: '100%',
+        height: '100%',
+    },
+    lockContainer: {
+        position: 'absolute',
+        top: 8,
+        right: 8,
+        color: 'rgba(248, 212, 141, 1)',
+        borderRadius: 12,
+        padding: 4,
+    },
+    episodeNumberContainer: {
+        position: 'absolute',
+        bottom: 8,
+        left: 8,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderRadius: 4,
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+    },
+    episodeNumberText: {
+        color: '#FFFFFF',
+        fontSize: 12,
+        fontWeight: '500',
+        fontFamily: 'figtree'
+    },
+    episodeTitle: {
+        color: '#FFFFFF',
+        fontSize: 12,
+        lineHeight: 15,
+    },
+    allEpisodesList: {
+        paddingHorizontal: 16,
     },
 });
 
-export default PhoneEmailInput;
+export default LatentHome;
+

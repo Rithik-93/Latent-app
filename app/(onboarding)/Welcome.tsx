@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import {
     View,
@@ -12,10 +12,11 @@ import {
 const WelcomeScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
+            {/* <ThemedSafeAreaView> */}
             <View style={styles.content}>
                 <View style={styles.imageContainer}>
                     <Image
-                        source={require("../assets/latent_intro.png")}
+                        source={require("../../assets/latent_intro.png")}
                         style={styles.profileImage}
                     />
                 </View>
@@ -26,10 +27,10 @@ const WelcomeScreen = () => {
                     </Text>
                 </View>
 
-                <TouchableOpacity style={styles.button}>
-                    <Link href='/(root)' >
-                        <Text style={styles.buttonText}>Get Started</Text>
-                    </Link>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push('/(onboarding)/Phone')}>
+                    <Text style={styles.buttonText}>Get Started</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.termsText}>
@@ -39,7 +40,8 @@ const WelcomeScreen = () => {
                     <Text style={styles.linkText}>Privacy Policy</Text>
                 </Text>
             </View>
-        </SafeAreaView>
+            {/* </ThemedSafeAreaView> */}
+        </SafeAreaView >
     );
 };
 
@@ -58,7 +60,6 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: 250,
         height: 250,
-        // marginTop: 10,
     },
     profileImage: {
         width: '100%',

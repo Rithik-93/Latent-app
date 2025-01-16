@@ -19,7 +19,7 @@ const NameInput = ({ navigation }) => {
 
         <View style={styles.imageContainer}>
           <Image
-            source={require("../../../assets/cheerup.png")}
+            source={require("../../assets/cheerup.png")}
             style={styles.profileImage}
           />
           <View style={styles.speechBubble}>
@@ -34,7 +34,7 @@ const NameInput = ({ navigation }) => {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Anw"
+              placeholder="Enter your name"
               placeholderTextColor="#666666"
               value={name}
               onChangeText={setName}
@@ -49,7 +49,7 @@ const NameInput = ({ navigation }) => {
           style={[
             styles.nextButton,
             name.length > 0 && styles.nextButtonActive
-          ]} onPress={() => router.push('/(root)/(tabs)/Home')}
+          ]} onPress={() => router.push('/(root)')}
         >
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
